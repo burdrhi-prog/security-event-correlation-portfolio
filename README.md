@@ -17,6 +17,9 @@ Security and fraud teams routinely encounter inconsistent timestamps, different 
 - Produce evidence-linked summaries for technical and nontechnical audiences.
 - Validate outputs with repeatable tests.
 
+## Evidence-grounded case study
+[How independent workbook methods translate into security and data analysis skills](docs/workbook-methodology-case-study.md). Historical workbook evidence is private; the public-facing case study describes methods and limitations only.
+
 ## Relevant roles
 Security Operations / SOC · Identity & Access Management · Fraud & Risk Analysis · Technical Data Analysis · Security Automation · Technical Support
 
