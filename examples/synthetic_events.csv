@@ -1,0 +1,6 @@
+event_id,timestamp,account,event_type,client_id,source
+EV-001,2026-01-15T09:00:00-07:00,demo-account,login,client-A,provider-alpha
+EV-002,2026-01-15T16:08:00Z,demo-account,session_refresh,client-B,provider-beta
+EV-003,2026-01-15T16:40:00Z,demo-account,login,client-A,provider-alpha
+EV-004,2026-01-15T16:09:00Z,other-demo-account,login,client-Z,provider-alpha
+EV-005,2026-01-15T17:00:00Z,demo-account,recovery,client-B,provider-beta
