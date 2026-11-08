@@ -25,12 +25,27 @@ Security Operations / SOC · Identity & Access Management · Fraud & Risk Analys
 
 This project builds on independent research and structured investigation-workbook methods. All examples intended for public sharing will be synthetic; no personal account exports, identifying records, or allegations belong in this repository.
 
+## Try the working example
+
+Requires Python 3.10+; uses only the standard library.
+
+```bash
+python scripts/correlate_events.py examples/synthetic_events.csv
+python -m unittest discover -s tests -v
+```
+
+The five synthetic records are designed to produce **one review signal**: two different logical client IDs on the same example account, eight minutes apart. The tool outputs JSON with event IDs, elapsed time, and explicit interpretation limits.
+
+[View the script](scripts/correlate_events.py) · [Synthetic sample](examples/synthetic_events.csv) · [Tests](tests/test_correlate_events.py)
+
+The repository now contains executable source and tests, but execution in a clean checkout has not yet been independently verified.
+
 ## Roadmap
 - [x] Establish repository and career-oriented project scope.
 - [ ] Document evidence handling and event schema.
-- [ ] Create synthetic event data.
-- [ ] Implement timestamp normalization and event correlation in Python.
-- [ ] Add tests, sample output, and screenshots.
+- [x] Create synthetic event data.
+- [x] Implement first-pass timestamp normalization and event correlation in Python.
+- [x] Add initial automated tests.\n- [ ] Run tests in a clean checkout and capture sample output/screenshots.
 - [ ] Review privacy and presentation before making repository public.
 
 *Independent learning project; no claim of paid analyst employment, certification, or production deployment.*
