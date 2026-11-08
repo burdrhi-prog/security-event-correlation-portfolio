@@ -4,7 +4,7 @@
 
 An independent portfolio project demonstrating how heterogeneous account and device activity can be organized into traceable, reviewable findings.
 
-> **Project status:** Foundation in progress. Synthetic examples, Python scripts, and tests are planned—not yet completed.
+> **Project status:** Runnable synthetic example and unit tests committed; execution in a clean checkout remains to be verified.
 
 ## Why this matters
 Security and fraud teams routinely encounter inconsistent timestamps, different identifier formats, and ambiguous activity across systems. Analysts must preserve evidence provenance and distinguish unusual events from confirmed incidents.
@@ -45,10 +45,12 @@ The repository now contains executable source and tests, but execution in a clea
 
 ## Roadmap
 - [x] Establish repository and career-oriented project scope.
-- [ ] Document evidence handling and event schema.
+- [x] Document workbook-based evidence methodology in the linked case study.
+- [ ] Publish a formal machine-readable event schema.
 - [x] Create synthetic event data.
 - [x] Implement first-pass timestamp normalization and event correlation in Python.
-- [x] Add initial automated tests.\n- [ ] Run tests in a clean checkout and capture sample output/screenshots.
+- [x] Add initial automated tests.
+- [ ] Run tests in a clean checkout and capture sample output/screenshots.
 - [ ] Review privacy and presentation before making repository public.
 
 *Independent learning project; no claim of paid analyst employment, certification, or production deployment.*
