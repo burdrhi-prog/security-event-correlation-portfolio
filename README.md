@@ -61,3 +61,13 @@ python -m unittest discover -s tests -v
 - [GitHub Actions test workflow](.github/workflows/tests.yml) runs tests and both generation commands on push and pull request.
 
 The checker flags missing required values, missing or malformed timezones, source-scoped duplicate event IDs, unresolved authorization, and mixed source offsets for review. A flag does not prove tampering. **No private investigation data is included.** CI configuration is published; check the Actions tab for actual hosted run results.
+
+### Integrated quality gate (Phase 4.1)
+
+The investigation report generator now runs the evidence-quality checker automatically before correlation. The Markdown report embeds row-level warnings and informational findings with severity counts. Input quality **errors** (for example, timezone-naive timestamps or missing required values) stop report generation rather than silently producing misleading output.
+
+```bash
+python scripts/investigation_report.py examples/synthetic_sim_auth_events.csv --output investigation_report.md
+```
+
+The synthetic sample is expected to show **6 quality issues** (5 unresolved authorization labels and 1 duplicate source-event row). This is a data-review summary, not a claim of compromise.
