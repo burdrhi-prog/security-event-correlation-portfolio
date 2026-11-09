@@ -1,0 +1,10 @@
+event_id,timestamp,account,event_type,source,source_record_id,client_id,authorization_status
+S-001,2026-02-10T14:00:00-07:00,demo-account,sim_swap,carrier-demo,CAR-101,,confirmed_event_authorization_unknown
+A-001,2026-02-10T20:45:00Z,demo-account,recovery,identity-demo,ID-201,client-A,unknown
+A-002,2026-02-10T21:05:00Z,demo-account,device_registration,identity-demo,ID-202,client-B,disputed
+A-003,2026-02-11T02:00:00Z,demo-account,login,identity-demo,ID-203,client-B,unknown
+A-004,2026-02-12T22:00:00Z,demo-account,password_reset,identity-demo,ID-204,client-B,unknown
+A-005,2026-02-10T21:01:00Z,other-account,recovery,identity-demo,ID-205,client-Z,unknown
+S-002,2026-03-01T09:00:00Z,demo-account,sim_activation,carrier-demo,CAR-102,,confirmed_event_authorization_unknown
+A-006,2026-03-01T09:20:00Z,demo-account,mfa_change,identity-demo,ID-206,client-C,unknown
+S-001,2026-02-10T14:00:00-07:00,demo-account,sim_swap,carrier-demo,CAR-101,,confirmed_event_authorization_unknown
