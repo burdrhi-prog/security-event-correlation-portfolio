@@ -45,3 +45,19 @@ python -m unittest discover -s tests -v
 The Phase 3 synthetic dataset has **8 unique events**, **1 duplicate record**, and **2 grouped findings**. The new module adds **12 locally passing tests** (in addition to the 8 Version 2 tests). See the [Phase 3 methods and limitations](docs/sim-change-correlation.md).
 
 **Privacy:** Phase 3 uses fictional dates and provider names, not original investigation evidence. Correlation does not prove that a SIM change caused authentication activity or identify a person.
+
+## Phase 4 — Cross-provider investigation reports and evidence quality
+
+Generate a human-readable report with a source-by-source timeline, grouped SIM-anchor correlations, provenance identifiers, authorization labels, evidence gaps, and explicit interpretation limits:
+
+```bash
+python scripts/investigation_report.py examples/synthetic_sim_auth_events.csv --output investigation_report.md
+python scripts/evidence_quality.py examples/synthetic_sim_auth_events.csv --output evidence_quality.json
+python -m unittest discover -s tests -v
+```
+
+- [Report generator](scripts/investigation_report.py) and [8 report tests](tests/test_investigation_report.py).
+- [Evidence quality checker](scripts/evidence_quality.py) and [7 quality tests](tests/test_evidence_quality.py).
+- [GitHub Actions test workflow](.github/workflows/tests.yml) runs tests and both generation commands on push and pull request.
+
+The checker flags missing required values, missing or malformed timezones, source-scoped duplicate event IDs, unresolved authorization, and mixed source offsets for review. A flag does not prove tampering. **No private investigation data is included.** CI configuration is published; check the Actions tab for actual hosted run results.
