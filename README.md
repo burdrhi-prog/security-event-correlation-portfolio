@@ -1,56 +1,33 @@
-# Security Event Correlation Lab
+# Security Event Correlation Lab — Version 2
 
 **Identity & Access Analysis · Security Event Investigation · Data Quality · Workflow Automation**
 
-An independent portfolio project demonstrating how heterogeneous account and device activity can be organized into traceable, reviewable findings.
+A privacy-safe Python portfolio demonstration inspired by independent multi-provider security investigation workbook methods. **Synthetic data only.** No real account exports, identifying details, or accusations are included.
 
-> **Project status:** Runnable synthetic example and unit tests committed; execution in a clean checkout remains to be verified.
+## What it does
 
-## Why this matters
-Security and fraud teams routinely encounter inconsistent timestamps, different identifier formats, and ambiguous activity across systems. Analysts must preserve evidence provenance and distinguish unusual events from confirmed incidents.
+- Imports CSV or JSON security event data.
+- Normalizes timezone-aware timestamps to UTC.
+- Detects repeated event IDs and preserves the duplicate count.
+- Finds different logical client IDs on the same account within a configurable time window.
+- Outputs review signals with event IDs, source references, and explicit interpretation limits.
 
-## What this project will demonstrate
-- Import and validate CSV/JSON security event records.
-- Normalize timestamps while retaining original values.
-- Correlate authentication, recovery, session, and device-registration events.
-- Flag anomalies for human review without unsupported attribution.
-- Produce evidence-linked summaries for technical and nontechnical audiences.
-- Validate outputs with repeatable tests.
+**Correlation is not attribution.** Different logical client identifiers do not establish separate physical devices, users, or unauthorized access.
 
-## Evidence-grounded case study
-[How independent workbook methods translate into security and data analysis skills](docs/workbook-methodology-case-study.md). Historical workbook evidence is private; the public-facing case study describes methods and limitations only.
+## Run
 
-## Relevant roles
-Security Operations / SOC · Identity & Access Management · Fraud & Risk Analysis · Technical Data Analysis · Security Automation · Technical Support
-
-## Evidence discipline
-**Observation is not interpretation. Correlation is not attribution. Multiple logical registrations do not prove multiple physical devices.**
-
-This project builds on independent research and structured investigation-workbook methods. All examples intended for public sharing will be synthetic; no personal account exports, identifying records, or allegations belong in this repository.
-
-## Try the working example
-
-Requires Python 3.10+; uses only the standard library.
+Python 3.10+; standard library only.
 
 ```bash
 python scripts/correlate_events.py examples/synthetic_events.csv
+python scripts/correlate_events.py examples/synthetic_events.csv --window-minutes 5
 python -m unittest discover -s tests -v
 ```
 
-The five synthetic records are designed to produce **one review signal**: two different logical client IDs on the same example account, eight minutes apart. The tool outputs JSON with event IDs, elapsed time, and explicit interpretation limits.
+Expected sample result: 5 unique events, 0 duplicate event IDs, 1 finding with an 8-minute gap. All 8 tests passed in local execution on 2026-11-09.
 
-[View the script](scripts/correlate_events.py) · [Synthetic sample](examples/synthetic_events.csv) · [Tests](tests/test_correlate_events.py)
+See [Version 2 notes](docs/version-2-notes.md), [sample JSON output](examples/expected_output.json), and the [privacy-safe workbook methodology case study](docs/workbook-methodology-case-study.md).
 
-The repository now contains executable source and tests, but execution in a clean checkout has not yet been independently verified.
+## Status and limitations
 
-## Roadmap
-- [x] Establish repository and career-oriented project scope.
-- [x] Document workbook-based evidence methodology in the linked case study.
-- [ ] Publish a formal machine-readable event schema.
-- [x] Create synthetic event data.
-- [x] Implement first-pass timestamp normalization and event correlation in Python.
-- [x] Add initial automated tests.
-- [ ] Run tests in a clean checkout and capture sample output/screenshots.
-- [ ] Review privacy and presentation before making repository public.
-
-*Independent learning project; no claim of paid analyst employment, certification, or production deployment.*
+This is an independent learning project, not a production security product or evidence of a specific real-world incident. Workbook v137 is the methodological reference described in earlier documentation; it was not re-opened for this release. IP and device fields are retained but not interpreted. No claims of paid professional experience or certification are made.
