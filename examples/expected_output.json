@@ -1,0 +1,40 @@
+{
+  "dataset": "synthetic_events.csv",
+  "event_count": 5,
+  "duplicate_event_id_count": 0,
+  "duplicate_event_ids": [],
+  "window_minutes": 15,
+  "finding_count": 1,
+  "findings": [
+    {
+      "rule": "distinct_logical_clients_near_in_time",
+      "classification": "review_required",
+      "account": "demo-account",
+      "event_ids": [
+        "EV-001",
+        "EV-002"
+      ],
+      "sources": [
+        "provider-alpha",
+        "provider-beta"
+      ],
+      "source_record_ids": [
+        "ALPHA-101",
+        "BETA-201"
+      ],
+      "timestamps_utc": [
+        "2026-01-15T16:00:00Z",
+        "2026-01-15T16:08:00Z"
+      ],
+      "gap_seconds": 480,
+      "cross_provider": true,
+      "interpretation": "Temporal overlap of different logical client IDs; no inference of physical devices, actors, or compromise."
+    }
+  ],
+  "limitations": [
+    "Synthetic demonstration only; not evidence of a real incident.",
+    "Event IDs are deduplicated within this input; same ID across providers may require a compound key.",
+    "Different logical clients do not establish distinct physical devices, people, or unauthorized access.",
+    "Time proximity is a review signal; source clocks and missing records may change interpretation."
+  ]
+}
