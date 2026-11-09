@@ -1,0 +1,4 @@
+claim_id,subject,statement,evidence_ids
+C-01,device-association,Association applies throughout the year,EV-01
+C-02,device-association,Association documented for one date only,EV-01;EV-02
+C-03,authorization,Authorization channel not yet established,EV-99
