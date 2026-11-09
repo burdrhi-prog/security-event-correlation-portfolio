@@ -29,5 +29,18 @@ class ReportTests(unittest.TestCase):
     def test_invalid_window(self):
         with self.assertRaisesRegex(ValueError,'window'):
             build_report(SAMPLE,-1,1)
+    def test_quality_section_embedded(self):
+        r=build_report(SAMPLE)
+        self.assertIn('## Automated evidence-quality assessment',r)
+        self.assertIn('**Quality issues:** 7 across 9 input rows.',r)
+        self.assertIn('duplicate_source_event_id',r)
+        self.assertIn('authorization_unresolved',r)
+    def test_quality_error_blocks_report(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'invalid.csv'
+            p.write_text('event_id,timestamp,account,event_type,source,source_record_id\nS,2026-01-01T10:00:00,demo,sim_swap,carrier,CAR-1\n')
+            with self.assertRaisesRegex(ValueError,'evidence quality check failed'):
+                build_report(p)
 if __name__=='__main__':
     unittest.main()
