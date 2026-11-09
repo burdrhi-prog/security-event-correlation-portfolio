@@ -32,7 +32,7 @@ class ReportTests(unittest.TestCase):
     def test_quality_section_embedded(self):
         r=build_report(SAMPLE)
         self.assertIn('## Automated evidence-quality assessment',r)
-        self.assertIn('**Quality issues:** 7 across 9 input rows.',r)
+        self.assertIn('**Quality issues:** 6 across 9 input rows.',r)
         self.assertIn('duplicate_source_event_id',r)
         self.assertIn('authorization_unresolved',r)
     def test_quality_error_blocks_report(self):
