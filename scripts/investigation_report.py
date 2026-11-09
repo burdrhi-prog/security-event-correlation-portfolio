@@ -5,13 +5,19 @@ from collections import Counter
 from pathlib import Path
 try:
     from scripts.sim_change_correlation import load_events, correlate
+    from scripts.evidence_quality import check as check_quality
 except ModuleNotFoundError:
     from sim_change_correlation import load_events, correlate
+    from evidence_quality import check as check_quality
 
 def safe(value):
     return str(value).replace('\\','\\\\').replace('|','\\|').replace('`','\\`').replace('\r',' ').replace('\n',' ')
 
 def build_report(path, before_minutes=1440, after_minutes=1440):
+    quality = check_quality(path)
+    error_count = quality['counts_by_severity'].get('error', 0)
+    if error_count:
+        raise ValueError(f'evidence quality check failed: {error_count} error(s); fix input before correlation')
     events, duplicates = load_events(path)
     findings = correlate(events, before_minutes, after_minutes)
     events = sorted(events, key=lambda e:(e['_dt'],e['source'],e['event_id']))
@@ -25,6 +31,16 @@ def build_report(path, before_minutes=1440, after_minutes=1440):
         '## Provider/source coverage','','| Source | Unique events |','|---|---:|']
     for source,count in sorted(counts.items()):
         lines.append(f'| {safe(source)} | {count} |')
+    lines += ['', '## Automated evidence-quality assessment', '',
+        f'**Quality issues:** {quality["issue_count"]} across {quality["input_rows"]} input rows.',
+        f'**Severity:** {quality["counts_by_severity"].get("error", 0)} errors; {quality["counts_by_severity"].get("warning", 0)} warnings; {quality["counts_by_severity"].get("info", 0)} informational items.',
+        '', '| Row | Severity | Check | Detail |', '|---|---|---|---|']
+    if quality['issues']:
+        for issue in quality['issues']:
+            lines.append('| ' + ' | '.join(safe(v) for v in (issue['row'] if issue['row'] is not None else 'dataset', issue['severity'], issue['code'], issue['detail'])) + ' |')
+    else:
+        lines.append('| — | — | No issues found | — |')
+    lines += ['', '**Quality interpretation:** flags require review; they do not establish manipulation or unauthorized access.', '']
     lines += ['','## Chronological event timeline','','| UTC timestamp | Source | Source record | Event ID | Account | Event type | Authorization label |',
         '|---|---|---|---|---|---|---|']
     for e in events:
