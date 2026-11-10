@@ -70,4 +70,4 @@ The investigation report generator now runs the evidence-quality checker automat
 python scripts/investigation_report.py examples/synthetic_sim_auth_events.csv --output investigation_report.md
 ```
 
-The synthetic sample is expected to show **6 quality issues** (5 unresolved authorization labels and 1 duplicate source-event row). This is a data-review summary, not a claim of compromise.
+The synthetic sample is expected to show **7 quality issues** (5 unresolved authorization labels, 1 duplicate source-event row, and 1 mixed-source UTC-offset informational finding). This is a data-review summary, not a claim of compromise.
