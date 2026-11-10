@@ -1,73 +1,86 @@
-# Security Event Correlation Lab — Version 2
+# Security Event Correlation Lab
 
-**Identity & Access Analysis · Security Event Investigation · Data Quality · Workflow Automation**
+[![Python tests](https://github.com/burdrhi-prog/security-event-correlation-portfolio/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/burdrhi-prog/security-event-correlation-portfolio/actions/workflows/tests.yml)
 
-A privacy-safe Python portfolio demonstration inspired by independent multi-provider security investigation workbook methods. **Synthetic data only.** No real account exports, identifying details, or accusations are included.
+**Python · Security event correlation · Identity and access analysis · Evidence quality · GitHub Actions**
 
-## What it does
+A privacy-safe, independently developed Python project demonstrating how to normalize, correlate, and document security events across fictional providers. It translates methods from an independently maintained investigation workbook into reproducible software and automated tests.
 
-- Imports CSV or JSON security event data.
-- Normalizes timezone-aware timestamps to UTC.
-- Detects repeated event IDs and preserves the duplicate count.
-- Finds different logical client IDs on the same account within a configurable time window.
-- Outputs review signals with event IDs, source references, and explicit interpretation limits.
+**All example events are synthetic.** This is a learning and portfolio project, not a production monitoring system or evidence of an actual compromise.
 
-**Correlation is not attribution.** Different logical client identifiers do not establish separate physical devices, users, or unauthorized access.
+## At a glance
 
-## Run
+| Capability | Demonstration |
+| --- | --- |
+| Event ingestion | Read structured CSV/JSON event inputs |
+| Timestamp handling | Normalize timezone-aware times to UTC while retaining source context |
+| Correlation | Flag nearby events involving distinct logical clients; group authentication events around fictional SIM lifecycle anchors |
+| Evidence provenance | Retain source references, record IDs, and authorization-status labels |
+| Data quality | Identify duplicate source events, missing values, timezone problems, and unresolved labels |
+| Reporting | Generate a Markdown investigation report and a JSON evidence-quality assessment |
+| Automated validation | Run Python unit tests, report generation, and quality checks through GitHub Actions |
 
-Python 3.10+; standard library only.
+## Example findings (fictional data)
+
+The [basic synthetic event example](examples/expected_output.json) illustrates a review signal:
+
+- **5 unique events**, **0 duplicate event IDs**, and **1 correlation finding** using a 15-minute window.
+- Two fictional providers report different logical client IDs for the same demonstration account **8 minutes apart**.
+- The finding retains event IDs, source record IDs, UTC timestamps, and an explicit interpretation limit.
+
+The [SIM/authentication sample](examples/synthetic_sim_auth_events.csv) illustrates **8 unique events, 1 duplicate record, and 2 grouped findings**. Its integrated evidence-quality review identifies **7 issues**: 5 unresolved authorization labels, 1 duplicate source-event record, and 1 mixed UTC-offset informational finding.
+
+**Interpretation matters:** Time proximity is a reason to review records, not proof of a shared physical device, another person, unauthorized access, or causation.
+
+## Try it
+
+Requires **Python 3.10+**; uses the standard library only.
 
 ```bash
+# Basic event correlation
 python scripts/correlate_events.py examples/synthetic_events.csv
-python scripts/correlate_events.py examples/synthetic_events.csv --window-minutes 5
-python -m unittest discover -s tests -v
-```
 
-Expected sample result: 5 unique events, 0 duplicate event IDs, 1 finding with an 8-minute gap. All 8 tests passed in local execution on 2026-11-09.
-
-See [Version 2 notes](docs/version-2-notes.md), [sample JSON output](examples/expected_output.json), and the [privacy-safe workbook methodology case study](docs/workbook-methodology-case-study.md).
-
-## Status and limitations
-
-This is an independent learning project, not a production security product or evidence of a specific real-world incident. Workbook v137 is the methodological reference described in earlier documentation; it was not re-opened for this release. IP and device fields are retained but not interpreted. No claims of paid professional experience or certification are made.
-
-
-## Phase 3 — SIM-change and authentication correlation
-
-The new [SIM-change correlation engine](scripts/sim_change_correlation.py) groups recovery, login, MFA, and device-registration events around synthetic carrier SIM lifecycle events. It preserves original and UTC timestamps, source record IDs, authorization-status labels, and review-only conclusions.
-
-```bash
+# SIM-change/authentication review
 python scripts/sim_change_correlation.py examples/synthetic_sim_auth_events.csv
-python -m unittest discover -s tests -v
-```
 
-The Phase 3 synthetic dataset has **8 unique events**, **1 duplicate record**, and **2 grouped findings**. The new module adds **12 locally passing tests** (in addition to the 8 Version 2 tests). See the [Phase 3 methods and limitations](docs/sim-change-correlation.md).
-
-**Privacy:** Phase 3 uses fictional dates and provider names, not original investigation evidence. Correlation does not prove that a SIM change caused authentication activity or identify a person.
-
-## Phase 4 — Cross-provider investigation reports and evidence quality
-
-Generate a human-readable report with a source-by-source timeline, grouped SIM-anchor correlations, provenance identifiers, authorization labels, evidence gaps, and explicit interpretation limits:
-
-```bash
+# Human-readable investigation report
 python scripts/investigation_report.py examples/synthetic_sim_auth_events.csv --output investigation_report.md
+
+# Machine-readable evidence-quality assessment
 python scripts/evidence_quality.py examples/synthetic_sim_auth_events.csv --output evidence_quality.json
+
+# All unit tests
 python -m unittest discover -s tests -v
 ```
 
-- [Report generator](scripts/investigation_report.py) and [8 report tests](tests/test_investigation_report.py).
-- [Evidence quality checker](scripts/evidence_quality.py) and [7 quality tests](tests/test_evidence_quality.py).
-- [GitHub Actions test workflow](.github/workflows/tests.yml) runs tests and both generation commands on push and pull request.
+**Explore the results:** [Sample correlation JSON](examples/expected_output.json) · [Report generator](scripts/investigation_report.py) · [Evidence-quality checker](scripts/evidence_quality.py) · [GitHub Actions runs](https://github.com/burdrhi-prog/security-event-correlation-portfolio/actions)
 
-The checker flags missing required values, missing or malformed timezones, source-scoped duplicate event IDs, unresolved authorization, and mixed source offsets for review. A flag does not prove tampering. **No private investigation data is included.** CI configuration is published; check the Actions tab for actual hosted run results.
+## Investigation techniques demonstrated
 
-### Integrated quality gate (Phase 4.1)
+1. **Preserve provenance:** Carry original event identifiers, source records, and timestamps into review outputs.
+2. **Normalize carefully:** Compare events in UTC without conflating different identifier namespaces or discarding original timing context.
+3. **Correlate without overclaiming:** Apply explicit time windows and SIM-event anchors as review heuristics, not causal proof.
+4. **Assess input reliability:** Surface missing values, duplicates, uncertain authorization, and inconsistent timezone representations.
+5. **Document uncertainty:** Separate observed records, correlated patterns, evidence gaps, and unresolved attribution.
+6. **Automate repeatable checks:** Use Python unit tests and continuous integration to catch regressions before presenting results.
 
-The investigation report generator now runs the evidence-quality checker automatically before correlation. The Markdown report embeds row-level warnings and informational findings with severity counts. Input quality **errors** (for example, timezone-naive timestamps or missing required values) stop report generation rather than silently producing misleading output.
+These skills are relevant to entry-level security operations, identity and access review, fraud/risk analysis, data-quality work, and technical documentation.
 
-```bash
-python scripts/investigation_report.py examples/synthetic_sim_auth_events.csv --output investigation_report.md
-```
+## Testing and project status
 
-The synthetic sample is expected to show **7 quality issues** (5 unresolved authorization labels, 1 duplicate source-event row, and 1 mixed-source UTC-offset informational finding). This is a data-review summary, not a claim of compromise.
+The badge above reflects the **current `main` branch** workflow. The [Python tests workflow](.github/workflows/tests.yml) runs on pushes and pull requests and performs unit testing, synthetic report generation, and evidence-quality checks.
+
+On **November 10, 2026**, GitHub Actions runs **#16 and #17 passed** after an outdated report-test expectation was corrected from 6 to 7 quality issues and the documentation was updated. The earlier failed runs remain visible in the repository history. See the [Actions history](https://github.com/burdrhi-prog/security-event-correlation-portfolio/actions) for the current result.
+
+## Documentation and methods
+
+- [Privacy-safe workbook methodology case study](docs/workbook-methodology-case-study.md)
+- [SIM-change correlation: methods and limitations](docs/sim-change-correlation.md)
+- [Version 2 development notes](docs/version-2-notes.md)
+- [Synthetic sample data](examples/synthetic_sim_auth_events.csv)
+
+## Scope, privacy, and limitations
+
+No private account exports, real-world identifiers, or accusations are published in this demonstration. Different logical registrations do **not** automatically mean different physical devices or operators. Correlations are investigative leads, not proof of compromise. Data-quality flags do not by themselves establish tampering.
+
+This repository demonstrates independently developed methods and tested code; it does not claim paid professional security experience, certification, or production readiness.
